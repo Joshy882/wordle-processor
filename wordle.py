@@ -179,7 +179,20 @@ print()
 print()
 # print(find_words_2('chord', single, 15))
 print()
-print(find_words_3(['chord','aunts'], single, 16))
+# print(find_words_3(['chord','aunts'], single, 16))
+
+# one_word = find_words_3(['     '], master, 26)
+
+test_list = answers.copy()
+
+first_words = find_words_3(['     '], test_list, 15)
+for first_word in first_words:
+    second_words = find_words_3([first_word], first_words, 15)
+    for second_word in second_words:
+        third_words = find_words_3([first_word,second_word], second_words, 15)
+        if len(third_words) > 0:
+            print(first_word, second_word, third_words)
+
 
 
 # ### 
