@@ -116,15 +116,18 @@ def find_words_2(existing_word, search_words, num_top_letters):
 
 def find_words_3(existing_words, search_words, num_top_letters):
     first_words = existing_words.copy()
-    for k in range(len(first_words)):
-        words = search_words.copy()
-        for j in range(len(words)-1, -1, -1):
-            num_contained = 0
-            for i in range(num_top_letters):
-                if a[i] not in first_words[k] and a[i] in words[j]:
-                    num_contained += 1
-            if num_contained < 5:
-                del words[j]
+    words = search_words.copy()
+    for j in range(len(words)-1, -1, -1): # loop through potential next words
+        num_contained = 0
+        for i in range(num_top_letters): # loop through letters
+            contained = False
+            for k in range(len(first_words)): # loop through existing words
+                if a[i] in first_words[k]:
+                    contained = True
+            if not contained and a[i] in words[j]:
+                num_contained += 1
+        if num_contained < 5:
+            del words[j]
     return words
     
 
@@ -171,9 +174,12 @@ else:
     print(single)
 
 single = master.copy()
-print(find_words(single, 5))
-print(find_words_2('artel', single, 15))
-print(find_words_3(['artel','psych'], single, 15))
+print()
+# print(find_words(single, 15))
+print()
+# print(find_words_2('chord', single, 15))
+print()
+print(find_words_3(['chord','aunts'], single, 16))
 
 
 # ### 
