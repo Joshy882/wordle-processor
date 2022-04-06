@@ -40,24 +40,24 @@ for i in range(len(alphabet)):
 # # Process list of Wordle allowed guesses
 # ###
 
-# # open allowed guesses for reading and create list of allowed guesses
-# allowed = []
-# num_allowed = 0
-# with open('allowed.txt', 'r') as reader:
-#     line = reader.readline()
-#     line = line.strip('[')
-#     line = line.strip(']')
-#     words = line.split(',')
-#     for index in range(len(words)):
-#         allowed.append(words[index].strip('\"'))
-#         num_allowed += 1
+# open allowed guesses for reading and create list of allowed guesses
+allowed = []
+num_allowed = 0
+with open('allowed.txt', 'r') as reader:
+    line = reader.readline()
+    line = line.strip('[')
+    line = line.strip(']')
+    words = line.split(',')
+    for index in range(len(words)):
+        allowed.append(words[index].strip('\"'))
+        num_allowed += 1
         
-# print(str(num_allowed) + ' number of allowed guesses read')
-# print('Number of allowed guesses in list: ' + str(len(allowed)))
+print(str(num_allowed) + ' number of allowed guesses read')
+print('Number of allowed guesses in list: ' + str(len(allowed)))
 
-# # combine answers and allowed lists to create master list
-# allowed += answers
-# print('Number of words in wordle list: ' + str(len(allowed)))
+# combine answers and allowed lists to create master list
+master = allowed + answers
+print('Number of words in wordle list: ' + str(len(allowed)))
 
 
 ### 
@@ -71,3 +71,29 @@ zipped.sort(key = lambda x: x[1], reverse=True)
 a, f = zip(*zipped)
 for i in range(len(zipped)):
     print(str(a[i]) + ' : ' + str(f[i]))
+
+# pick five most common letters and look for matching word in answers
+single = answers
+for j in range(len(single)-1, -1, -1):
+    for i in range(5):
+        if a[i] not in single[j]:
+            del single[j]
+            break
+
+if (len(single) == 0):
+    print('No single best starting word found in answers list. Retrying with master list...')
+    # repeat with master list guesses
+    single = master
+    for j in range(len(single)-1, -1, -1):
+        for i in range(5):
+            if a[i] not in single[j]:
+                del single[j]
+                break
+    
+    if (len(single) == 0):
+        print('No single best starting word found in master list.')
+    else:
+        print(single)
+else:
+    print(single)
+    
