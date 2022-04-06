@@ -149,12 +149,24 @@ for first_word in first_words:
 # pick the ten most common letters and look for matching words in answers
 ###
 
-# print('\nBest 3 starting words')
-# top_fifteen = 15
-# first_words = find_words_3(['     '], answers, top_fifteen)
-# for first_word in first_words:
-#     second_words = find_words_3([first_word], first_words, top_fifteen)
-#     for second_word in second_words:
-#         third_words = find_words_3([first_word,second_word], second_words, top_fifteen)
-#         if len(third_words) > 0:
-#             print(first_word, second_word, third_words)
+# need to write to file because it is too long. can make it shorter by only remembering unique triplets
+def list_to_string(list_of_strings):
+    str1 = '[ '
+    for elem in list_of_strings:
+        str1 += elem + ' '
+    str1 += ']'
+    return str1
+
+print('\nBest 3 starting words')
+with open('triplets.txt', 'w') as writer:
+    top_fifteen = 15
+    first_words = find_words_3(['     '], answers, top_fifteen)
+    for first_word in first_words:
+        second_words = find_words_3([first_word], first_words, top_fifteen)
+        for second_word in second_words:
+            third_words = find_words_3([first_word,second_word], second_words, top_fifteen)
+            if len(third_words) > 0:
+                line = first_word + ' ' + second_word + ' ' + list_to_string(third_words)
+                print(line)
+                writer.write(line)
+                writer.write('\n')
