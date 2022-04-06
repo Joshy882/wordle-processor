@@ -69,26 +69,9 @@ a, f = zip(*zipped)
 for i in range(len(zipped)):
     print(str(a[i]) + ' : ' + str(f[i]))
 
-
 ### 
-# Find the single best starting word
+# functions for finding words
 ###
-
-# def find_words(word_list, num_top_letters):
-#     first_words = word_list.copy()
-#     num_letters = num_top_letters
-#     for j in range(len(first_words)-1, -1, -1):
-#         num_contained = 0
-#         for i in range(num_letters):
-#             if a[i] in first_words[j]:
-#                 num_contained += 1
-#         if num_contained < 5:
-#             del first_words[j]
-
-#     if len(words) > 0:
-#         return find_words(words, num_letters)
-#     else:
-#         return words
 
 def find_words(word_list, num_top_letters):
     words = word_list.copy()
@@ -131,103 +114,42 @@ def find_words_3(existing_words, search_words, num_top_letters):
     return words
     
 
-
+### 
+# Find the single best starting word
 # pick the five most common letters and look for matching word in answers
+###
+
+print('\nBest starting words')
 top_five = 5
-# single = answers.copy()
-# for j in range(len(single)-1, -1, -1):
-#     for i in range(top_five):
-#         if a[i] not in single[j]:
-#             del single[j]
-#             break
-
-# if (len(single) == 0):
-#     print('No single best starting word found in answers list. Retrying with master list...')
-#     # repeat with master list guesses
-#     single = master.copy()
-#     for j in range(len(single)-1, -1, -1):
-#         for i in range(top_five):
-#             if a[i] not in single[j]:
-#                 del single[j]
-#                 break
-    
-#     if (len(single) == 0):
-#         print('No single best starting word found in master list.')
-#     else:
-#         print(single)
-# else:
-#     print(single)
+first_words = find_words_3(['     '], master, top_five)
+print (first_words)
 
 
+### 
+# Find the two best starting words
+# pick the ten most common letters and look for matching words in answers
+###
 
-
-single = master.copy()
-for j in range(len(single)-1, -1, -1):
-    for i in range(top_five):
-        if a[i] not in single[j]:
-            del single[j]
-            break
-
-if (len(single) == 0):
-    print('No single best starting word found in master list.')
-else:
-    print(single)
-
-single = master.copy()
-print()
-# print(find_words(single, 15))
-print()
-# print(find_words_2('chord', single, 15))
-print()
-# print(find_words_3(['chord','aunts'], single, 16))
-
-# one_word = find_words_3(['     '], master, 26)
-
-test_list = answers.copy()
-
-first_words = find_words_3(['     '], test_list, 15)
+print('\nBest 2 starting words')
+top_ten = 10
+first_words = find_words_3(['     '], answers, top_ten)
 for first_word in first_words:
-    second_words = find_words_3([first_word], first_words, 15)
-    for second_word in second_words:
-        third_words = find_words_3([first_word,second_word], second_words, 15)
-        if len(third_words) > 0:
-            print(first_word, second_word, third_words)
+    second_words = find_words_3([first_word], first_words, top_ten)
+    if len(second_words) > 0:
+        print(first_word, second_words)
 
 
+### 
+# Find the two best starting words
+# pick the ten most common letters and look for matching words in answers
+###
 
-# ### 
-# # Find the two best starting words
-# ###
-
-# # pick the ten most common letters only look at answers that contain five of the ten letters
-# top_ten = 10
-# suitable_first = 0
-# double_first = master.copy() # master.copy()
-# for j in range(len(double_first)-1, -1, -1):
-#     num_contained = 0
-#     for i in range(top_ten):
-#         if a[i] in double_first[j]:
-#             num_contained += 1
-#     if num_contained < 5:
-#         del double_first[j]
-#     else:
-#         suitable_first += 1
-#         # print(double_first[j])
-#         # first word is good, find the second word
-#         double_second = find_words_2(double_first[j], double_first, top_ten)
-#         if len(double_second) > 0:
-#             print(double_first[j])
-#             print(double_second)
-#         # else:
-#         #     print('No suitable second word for ' + double_first[j])
-
-# print(suitable_first)
-
-
-# # pick the fifteen most common letters and make three words out of them
-# suitable_first_words = find_words_2('     ', master, 10)
-# print(suitable_first_words)
-# print(len(suitable_first_words))
-# suitable_first_words = find_words_3(['     '], master, 10)
-# print(suitable_first_words)
-# print(len(suitable_first_words))
+# print('\nBest 3 starting words')
+# top_fifteen = 15
+# first_words = find_words_3(['     '], answers, top_fifteen)
+# for first_word in first_words:
+#     second_words = find_words_3([first_word], first_words, top_fifteen)
+#     for second_word in second_words:
+#         third_words = find_words_3([first_word,second_word], second_words, top_fifteen)
+#         if len(third_words) > 0:
+#             print(first_word, second_word, third_words)
