@@ -119,8 +119,13 @@ def find_words_3(existing_words, search_words, num_top_letters):
 # pick the five most common letters and look for matching word in answers
 ###
 
-print('\nBest starting words')
-top_five = 5
+print('\nBest starting words that are accepted answers')
+top_six = 6
+first_words = find_words_3(['     '], answers, top_six)
+print (first_words)
+
+print('\nBest starting words that aren\'t accepted answers')
+top_five = 6
 first_words = find_words_3(['     '], master, top_five)
 print (first_words)
 
