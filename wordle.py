@@ -125,7 +125,7 @@ first_words = find_words_3(['     '], answers, top_six)
 print (first_words)
 
 print('\nBest starting words that aren\'t accepted answers')
-top_five = 6
+top_five = 5
 first_words = find_words_3(['     '], master, top_five)
 print (first_words)
 
