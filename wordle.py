@@ -106,10 +106,12 @@ def find_words_2(existing_word, search_words, num_top_letters):
     first_word = str(existing_word)
     words = search_words.copy()
     for j in range(len(words)-1, -1, -1):
+        num_contained = 0
         for i in range(num_top_letters):
-            if a[i] in first_word or a[i] not in words[j]:
-                del words[j]
-                break
+            if a[i] not in first_word and a[i] in words[j]:
+                num_contained += 1
+        if num_contained < 5:
+            del words[j]
     return words
 
 def find_words_3(existing_words, search_words, num_top_letters):
@@ -117,10 +119,12 @@ def find_words_3(existing_words, search_words, num_top_letters):
     for k in range(len(first_words)):
         words = search_words.copy()
         for j in range(len(words)-1, -1, -1):
+            num_contained = 0
             for i in range(num_top_letters):
-                if a[i] in first_words[k] or a[i] not in words[j]:
-                    del words[j]
-                    break
+                if a[i] not in first_words[k] and a[i] in words[j]:
+                    num_contained += 1
+            if num_contained < 5:
+                del words[j]
     return words
     
 
@@ -166,45 +170,45 @@ if (len(single) == 0):
 else:
     print(single)
 
-single = answers.copy()
-print(find_words(single, 10))
-print(find_words_2('     ', single, top_five))
-print(find_words_3(['     '], single, top_five))
+single = master.copy()
+print(find_words(single, 5))
+print(find_words_2('artel', single, 15))
+print(find_words_3(['artel','psych'], single, 15))
 
 
-### 
-# Find the two best starting words
-###
+# ### 
+# # Find the two best starting words
+# ###
 
-# pick the ten most common letters only look at answers that contain five of the ten letters
-top_ten = 10
-suitable_first = 0
-double_first = master.copy() # master.copy()
-for j in range(len(double_first)-1, -1, -1):
-    num_contained = 0
-    for i in range(top_ten):
-        if a[i] in double_first[j]:
-            num_contained += 1
-    if num_contained < 5:
-        del double_first[j]
-    else:
-        suitable_first += 1
-        # print(double_first[j])
-        # first word is good, find the second word
-        double_second = find_words_2(double_first[j], double_first, top_ten)
-        if len(double_second) > 0:
-            print(double_first[j])
-            print(double_second)
-        # else:
-        #     print('No suitable second word for ' + double_first[j])
+# # pick the ten most common letters only look at answers that contain five of the ten letters
+# top_ten = 10
+# suitable_first = 0
+# double_first = master.copy() # master.copy()
+# for j in range(len(double_first)-1, -1, -1):
+#     num_contained = 0
+#     for i in range(top_ten):
+#         if a[i] in double_first[j]:
+#             num_contained += 1
+#     if num_contained < 5:
+#         del double_first[j]
+#     else:
+#         suitable_first += 1
+#         # print(double_first[j])
+#         # first word is good, find the second word
+#         double_second = find_words_2(double_first[j], double_first, top_ten)
+#         if len(double_second) > 0:
+#             print(double_first[j])
+#             print(double_second)
+#         # else:
+#         #     print('No suitable second word for ' + double_first[j])
 
-print(suitable_first)
+# print(suitable_first)
 
 
-# pick the fifteen most common letters and make three words out of them
-suitable_first_words = find_words_2('     ', master, 10)
-print(suitable_first_words)
-print(len(suitable_first_words))
-suitable_first_words = find_words_3(['     '], master, 10)
-print(suitable_first_words)
-print(len(suitable_first_words))
+# # pick the fifteen most common letters and make three words out of them
+# suitable_first_words = find_words_2('     ', master, 10)
+# print(suitable_first_words)
+# print(len(suitable_first_words))
+# suitable_first_words = find_words_3(['     '], master, 10)
+# print(suitable_first_words)
+# print(len(suitable_first_words))
