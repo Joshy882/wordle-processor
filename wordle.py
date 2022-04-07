@@ -2,18 +2,22 @@
 # Process list of Wordle answers to find the frequency of each letter
 ###
 
-# open answers for reading and create list of answers
-answers = []
-num_answers = 0
-with open('answers.txt', 'r') as reader:
-    line = reader.readline()
-    line = line.strip('[')
-    line = line.strip(']')
-    words = line.split(',')
-    for index in range(len(words)):
-        answers.append(words[index].strip('\"'))
-        num_answers += 1
+def get_list_from_file(file_name):
+    data_list = []
+    datum_read = 0
+    with open(file_name, 'r') as reader:
+        line = reader.readline()
+        line = line.strip('[')
+        line = line.strip(']')
+        words = line.split(',')
+        for index in range(len(words)):
+            data_list.append(words[index].strip('\"'))
+            datum_read += 1
+    return data_list, datum_read
 
+
+# open answers for reading and create list of answers
+answers, num_answers = get_list_from_file('answers.txt')
 print('\n' + str(num_answers) + ' number of answers read')
 print('Number of answers in list: ' + str(len(answers)))
 
@@ -36,22 +40,12 @@ for i in range(len(alphabet)):
     print(alphabet[i] + ' : ' + str(frequency[i]))
 
 
-# ###
-# # Process list of Wordle allowed guesses
-# ###
+###
+# Process list of Wordle allowed guesses
+###
 
 # open allowed guesses for reading and create list of allowed guesses
-allowed = []
-num_allowed = 0
-with open('allowed.txt', 'r') as reader:
-    line = reader.readline()
-    line = line.strip('[')
-    line = line.strip(']')
-    words = line.split(',')
-    for index in range(len(words)):
-        allowed.append(words[index].strip('\"'))
-        num_allowed += 1
-
+allowed, num_allowed = get_list_from_file('allowed.txt')
 print('\n' + str(num_allowed) + ' number of allowed guesses read')
 print('Number of allowed guesses in list: ' + str(len(allowed)))
 
