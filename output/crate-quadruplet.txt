@@ -1,0 +1,7 @@
+Best quadrulets of starting words when starting with 'crate'
+crate howdy skimp [ flung ]
+crate howdy flung [ skimp ]
+crate skimp howdy [ flung ]
+crate skimp flung [ howdy ]
+crate flung howdy [ skimp ]
+crate flung skimp [ howdy ]

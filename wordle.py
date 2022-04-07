@@ -164,8 +164,8 @@ print('\nBest pairs of starting words can be found in output/pairs.txt')
 
 
 ###
-# Find the two best starting words
-# pick the ten most common letters and look for matching words in answers
+# Find the three best starting words
+# pick the fifteen most common letters and look for matching words in answers
 ###
 
 with open('output/triplets.txt', 'w') as writer:
@@ -183,3 +183,54 @@ with open('output/triplets.txt', 'w') as writer:
                 writer.write(line)
 
 print('\nBest triplets of starting words can be found in output/triplets.txt')
+
+
+# ###
+# # Find the four best starting words
+# # pick the twenty most common letters and look for matching words in answers
+# ###
+
+# with open('output/quadruplets.txt', 'w') as writer:
+#     writer.write('Best quadruplets of starting words\n')
+#     top_twenty = 20
+#     first_words = find_words_3(['     '], answers, top_twenty)
+#     for first_word in first_words:
+#         second_words = find_words_3([first_word], first_words, top_twenty)
+#         for second_word in second_words:
+#             third_words = find_words_3(
+#                 [first_word, second_word], second_words, top_twenty)
+#             for third_word in third_words:
+#                 fourth_words = find_words_3(
+#                     [first_word, second_word, third_word], third_words, top_twenty)
+#                 if len(fourth_words) > 0:
+#                     line = first_word + ' ' + second_word + ' ' + \
+#                         third_word + ' ' + list_to_string(fourth_words) + '\n'
+#                     writer.write(line)
+
+# print('\nBest quadrulets of starting words can be found in output/quadruplets.txt')
+
+
+###
+# Find the next three best words after starting with 'crate'
+# pick the twenty most common letters and look for matching words in answers
+###
+
+with open('output/crate-quadruplet.txt', 'w') as writer:
+    writer.write(
+        'Best quadrulets of starting words when starting with \'crate\'\n')
+    top_twenty = 21
+    first_words = ['crate']
+    for first_word in first_words:
+        second_words = find_words_3([first_word], answers, top_twenty)
+        for second_word in second_words:
+            third_words = find_words_3(
+                [first_word, second_word], second_words, top_twenty)
+            for third_word in third_words:
+                fourth_words = find_words_3(
+                    [first_word, second_word, third_word], third_words, top_twenty)
+                if len(fourth_words) > 0:
+                    line = first_word + ' ' + second_word + ' ' + \
+                        third_word + ' ' + list_to_string(fourth_words) + '\n'
+                    writer.write(line)
+
+print('\nBest quadrulets of starting words when starting with \'crate\' can be found in output/crate-quadruplet.txt')
