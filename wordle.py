@@ -181,6 +181,7 @@ with open('output/triplets.txt', 'w') as writer:
                 line = first_word + ' ' + second_word + \
                     ' ' + list_to_string(third_words) + '\n'
                 writer.write(line)
+                break
 
 print('\nBest triplets of starting words can be found in output/triplets.txt')
 
