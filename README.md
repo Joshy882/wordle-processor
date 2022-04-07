@@ -12,7 +12,7 @@ The best starting words, as of 7th April 2022, can be found in the text files in
 2. Right-click anywhere on page and click `View page source`
 3. Scroll to the bottom of the page and click on the link that looks like this: `main.3d28ac0c.js`
 4. Scroll down to see the two lists of five letter words. They will be in the format `var Ma=[answers-list],Oa=[allowed-guesses-list]`. The list following `var Ma=` is the answers list. The list following `Oa=` is the allowed guesses list (not including the answers).
-5. Copy the lists into their respective text files in the same directory as the `wordle.py` program.
+5. Copy the lists into their respective text files in the lists folder.
 
 # Running the program
 

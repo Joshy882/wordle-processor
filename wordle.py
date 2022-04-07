@@ -17,7 +17,7 @@ def get_list_from_file(file_name):
 
 
 # open answers for reading and create list of answers
-answers, num_answers = get_list_from_file('answers.txt')
+answers, num_answers = get_list_from_file('lists/answers.txt')
 print('\n' + str(num_answers) + ' number of answers read')
 print('Number of answers in list: ' + str(len(answers)))
 
@@ -45,7 +45,7 @@ for i in range(len(alphabet)):
 ###
 
 # open allowed guesses for reading and create list of allowed guesses
-allowed, num_allowed = get_list_from_file('allowed.txt')
+allowed, num_allowed = get_list_from_file('lists/allowed.txt')
 print('\n' + str(num_allowed) + ' number of allowed guesses read')
 print('Number of allowed guesses in list: ' + str(len(allowed)))
 
