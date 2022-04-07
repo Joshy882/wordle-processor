@@ -86,9 +86,19 @@ def list_to_string(list_of_strings):
     """Convert a list into a printable string."""
     str1 = '[ '
     for elem in list_of_strings:
-        str1 += elem + ' '
+        str1 += str(elem) + ' '
     str1 += ']'
     return str1
+
+
+def score_word(word):
+    """Score a word by adding the frequency of each letter in the word together."""
+    score = 0
+    for letter in word:
+        letter_val = ord(letter)
+        alphabet_index = letter_val - ord('a')
+        score += frequency[alphabet_index]
+    return score
 
 
 # Find the single best starting word
@@ -108,59 +118,131 @@ print('\nBest single starting words can be found in output/singles.txt')
 
 # Find the two best starting words
 # pick the ten most common letters and look for matching words in answers
+# pairs sorted alphabetically based on the first word, then based on the score of the first word
+pairs = []
+pairs_scores = []
+top_ten = 10
+first_words = find_words(['     '], answers, top_ten)
+for first_word in first_words:
+    second_words = find_words([first_word], first_words, top_ten)
+    if len(second_words) > 0:
+        pairs.append((first_word, second_words))
+        pairs_scores.append(
+            (score_word(first_word), score_word(second_words[0])))
+p = pairs.copy()
+p.sort(key=lambda x: x[0])
 with open('output/pairs.txt', 'w') as writer:
     writer.write('Best pairs of starting words\n')
-    top_ten = 10
-    first_words = find_words(['     '], answers, top_ten)
-    for first_word in first_words:
-        second_words = find_words([first_word], first_words, top_ten)
-        if len(second_words) > 0:
-            line = first_word + ' ' + list_to_string(second_words) + '\n'
-            writer.write(line)
+    for first, second in p:
+        line = first + ' ' + list_to_string(second) + '\n'
+        writer.write(line)
 print('\nBest pairs of starting words can be found in output/pairs.txt')
+zipped = list(zip(pairs, pairs_scores))
+zipped.sort(key=lambda x: x[1][0], reverse=True)
+p, s = zip(*zipped)
+with open('output/pairs-scores.txt', 'w') as writer:
+    writer.write(
+        'Best pairs of starting words, sorted according to highest score of first word\n')
+    for i in range(len(zipped)):
+        word_list = list(p[i])
+        first = word_list[0]
+        second = word_list[1]
+        line = list_to_string(list(s[i])) + ' ' + \
+            first + ' ' + list_to_string(second) + '\n'
+        writer.write(line)
+print('\nBest pairs of starting words (ranked by score) can be found in output/pairs-scores.txt')
 
 # Find the three best starting words
 # pick the fifteen most common letters and look for matching words in answers
+# triplets are sorted alphabetically based on the first word, then based on the score of the first word plus the score of the second word
+triplets = []
+triplets_scores = []
+top_fifteen = 15
+first_words = find_words(['     '], answers, top_fifteen)
+for first_word in first_words:
+    second_words = find_words([first_word], first_words, top_fifteen)
+    for second_word in second_words:
+        third_words = find_words(
+            [first_word, second_word], second_words, top_fifteen)
+        if len(third_words) > 0:
+            triplets.append((first_word, second_word, third_words))
+            triplets_scores.append((score_word(first_word), score_word(
+                second_word), score_word(third_words[0])))
+            break
+t = triplets.copy()
+t.sort(key=lambda x: x[0])
 with open('output/triplets.txt', 'w') as writer:
     writer.write('Best triplets of starting words\n')
-    top_fifteen = 15
-    first_words = find_words(['     '], answers, top_fifteen)
-    for first_word in first_words:
-        second_words = find_words([first_word], first_words, top_fifteen)
-        for second_word in second_words:
-            third_words = find_words(
-                [first_word, second_word], second_words, top_fifteen)
-            if len(third_words) > 0:
-                line = first_word + ' ' + second_word + \
-                    ' ' + list_to_string(third_words) + '\n'
-                writer.write(line)
-                break
+    for first, second, third in t:
+        line = first + ' ' + second + ' ' + list_to_string(third) + '\n'
+        writer.write(line)
 print('\nBest triplets of starting words can be found in output/triplets.txt')
+zipped = list(zip(triplets, triplets_scores))
+zipped.sort(key=lambda x: (x[1][0] + x[1][1]), reverse=True)
+t, s = zip(*zipped)
+with open('output/triplets-scores.txt', 'w') as writer:
+    writer.write(
+        'Best triplets of starting words, sorted according to highest combined score of first and second words\n')
+    for i in range(len(zipped)):
+        word_list = list(t[i])
+        first = word_list[0]
+        second = word_list[1]
+        third = word_list[2]
+        line = list_to_string(list(s[i])) + ' ' + first + \
+            ' ' + second + ' ' + list_to_string(third) + '\n'
+        writer.write(line)
+print('\nBest triplets of starting words (ranked by score) can be found in output/triplets-scores.txt')
 
 # Find the four best starting words
 # pick the twenty most common letters and look for matching words in answers
+# quadruplets are sorted alphabetically based on the first word, then based on the combined scored of the first three words
+quadruplets = []
+quadruplets_scores = []
+top_twenty = 20
+first_words = find_words(['     '], answers, top_twenty)
+for first_word in first_words:
+    second_words = find_words([first_word], first_words, top_twenty)
+    for second_word in second_words:
+        comb_found = False
+        third_words = find_words(
+            [first_word, second_word], second_words, top_twenty)
+        for third_word in third_words:
+            fourth_words = find_words(
+                [first_word, second_word, third_word], third_words, top_twenty)
+            if len(fourth_words) > 0:
+                quadruplets.append(
+                    (first_word, second_word, third_word, fourth_words))
+                quadruplets_scores.append((score_word(first_word), score_word(
+                    second_word), score_word(third_word), score_word(fourth_words[0])))
+                comb_found = True
+                break
+        if comb_found:
+            break
+q = quadruplets.copy()
+q.sort(key=lambda x: x[0])
 with open('output/quadruplets.txt', 'w') as writer:
     writer.write('Best quadruplets of starting words\n')
-    top_twenty = 20
-    first_words = find_words(['     '], answers, top_twenty)
-    for first_word in first_words:
-        second_words = find_words([first_word], first_words, top_twenty)
-        for second_word in second_words:
-            comb_found = False
-            third_words = find_words(
-                [first_word, second_word], second_words, top_twenty)
-            for third_word in third_words:
-                fourth_words = find_words(
-                    [first_word, second_word, third_word], third_words, top_twenty)
-                if len(fourth_words) > 0:
-                    line = first_word + ' ' + second_word + ' ' + \
-                        third_word + ' ' + list_to_string(fourth_words) + '\n'
-                    writer.write(line)
-                    comb_found = True
-                    break
-            if comb_found:
-                break
+    for first, second, third, fourth in q:
+        line = first + ' ' + second + ' ' + third + \
+            ' ' + list_to_string(fourth) + '\n'
+        writer.write(line)
 print('\nBest quadrulets of starting words can be found in output/quadruplets.txt')
+zipped = list(zip(quadruplets, quadruplets_scores))
+zipped.sort(key=lambda x: (x[1][0] + x[1][1] + x[1][2]), reverse=True)
+q, s = zip(*zipped)
+with open('output/quadruplets-scores.txt', 'w') as writer:
+    writer.write(
+        'Best quadruplets of starting words, sorted according to highest combined score of first, second, and third words\n')
+    for i in range(len(zipped)):
+        word_list = list(q[i])
+        first = word_list[0]
+        second = word_list[1]
+        third = word_list[2]
+        fourth = word_list[3]
+        line = list_to_string(list(s[i])) + ' ' + first + ' ' + \
+            second + ' ' + third + ' ' + list_to_string(fourth) + '\n'
+        writer.write(line)
+print('\nBest quadrulets of starting words (ranked by score) can be found in output/quadruplets-scores.txt')
 
 # Find the next three best words after starting with 'crate'
 # pick the twenty most common letters and look for matching words in answers
