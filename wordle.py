@@ -186,29 +186,35 @@ with open('output/triplets.txt', 'w') as writer:
 print('\nBest triplets of starting words can be found in output/triplets.txt')
 
 
-# ###
-# # Find the four best starting words
-# # pick the twenty most common letters and look for matching words in answers
-# ###
+###
+# Find the four best starting words
+# pick the twenty most common letters and look for matching words in answers
+###
 
-# with open('output/quadruplets.txt', 'w') as writer:
-#     writer.write('Best quadruplets of starting words\n')
-#     top_twenty = 20
-#     first_words = find_words_3(['     '], answers, top_twenty)
-#     for first_word in first_words:
-#         second_words = find_words_3([first_word], first_words, top_twenty)
-#         for second_word in second_words:
-#             third_words = find_words_3(
-#                 [first_word, second_word], second_words, top_twenty)
-#             for third_word in third_words:
-#                 fourth_words = find_words_3(
-#                     [first_word, second_word, third_word], third_words, top_twenty)
-#                 if len(fourth_words) > 0:
-#                     line = first_word + ' ' + second_word + ' ' + \
-#                         third_word + ' ' + list_to_string(fourth_words) + '\n'
-#                     writer.write(line)
+with open('output/quadruplets.txt', 'w') as writer:
+    writer.write('Best quadruplets of starting words\n')
+    top_twenty = 20
+    first_words = find_words_3(['     '], answers, top_twenty)
+    for first_word in first_words:
+        second_words = find_words_3([first_word], first_words, top_twenty)
+        for second_word in second_words:
+            comb_found = False
+            third_words = find_words_3(
+                [first_word, second_word], second_words, top_twenty)
+            for third_word in third_words:
+                fourth_words = find_words_3(
+                    [first_word, second_word, third_word], third_words, top_twenty)
+                if len(fourth_words) > 0:
+                    line = first_word + ' ' + second_word + ' ' + \
+                        third_word + ' ' + \
+                        list_to_string(fourth_words) + '\n'
+                    writer.write(line)
+                    comb_found = True
+                    break
+            if comb_found:
+                break
 
-# print('\nBest quadrulets of starting words can be found in output/quadruplets.txt')
+print('\nBest quadrulets of starting words can be found in output/quadruplets.txt')
 
 
 ###
