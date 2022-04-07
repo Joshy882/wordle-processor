@@ -34,11 +34,6 @@ for answer in answers:
         alphabet_index = letter_val - ord('a')
         frequency[alphabet_index] += 1
 
-# print frequency of each letter in answers
-print('\nFrequency in alphabetical order')
-for i in range(len(alphabet)):
-    print(alphabet[i] + ' : ' + str(frequency[i]))
-
 
 ###
 # Process list of Wordle allowed guesses
@@ -55,20 +50,27 @@ print('\nTotal number of words in wordle list: ' + str(len(master)))
 
 
 ###
-# reorder alphabet based on frequency
+# print frequency of each letter in answers
 ###
-print('\nAlphabet sorted by frequency')
-zipped = list(zip(alphabet, frequency))
-zipped.sort(key=lambda x: x[1], reverse=True)
-a, f = zip(*zipped)
-for i in range(len(zipped)):
-    print(str(a[i]) + ' : ' + str(f[i]))
+with open('output/letter-frequencies.txt', 'w') as writer:
+    writer.write('Frequency in alphabetical order\n')
+    for i in range(len(alphabet)):
+        line = alphabet[i] + ' : ' + str(frequency[i]) + '\n'
+        writer.write(line)
+
+    # reorder alphabet based on frequency
+    writer.write('\nAlphabet sorted by frequency\n')
+    zipped = list(zip(alphabet, frequency))
+    zipped.sort(key=lambda x: x[1], reverse=True)
+    a, f = zip(*zipped)
+    for i in range(len(zipped)):
+        line = str(a[i]) + ' : ' + str(f[i]) + '\n'
+        writer.write(line)
 
 
 ###
 # functions for finding words
 ###
-
 
 def find_words(word_list, num_top_letters):
     words = word_list.copy()
@@ -137,8 +139,8 @@ with open('output/singles.txt', 'w') as writer:
     writer.write('\nBest starting words that aren\'t accepted answers\n')
     top_five = 5
     first_words = find_words_3(['     '], master, top_five)
-    writer.write(list_to_string(first_words))
-    writer.write('\n')
+    line = list_to_string(first_words) + '\n'
+    writer.write(line)
 
 print('\nBest single starting words can be found in output/singles.txt')
 
@@ -155,9 +157,8 @@ with open('output/pairs.txt', 'w') as writer:
     for first_word in first_words:
         second_words = find_words_3([first_word], first_words, top_ten)
         if len(second_words) > 0:
-            line = first_word + ' ' + list_to_string(second_words)
+            line = first_word + ' ' + list_to_string(second_words) + '\n'
             writer.write(line)
-            writer.write('\n')
 
 print('\nBest pairs of starting words can be found in output/pairs.txt')
 
@@ -178,8 +179,7 @@ with open('output/triplets.txt', 'w') as writer:
                 [first_word, second_word], second_words, top_fifteen)
             if len(third_words) > 0:
                 line = first_word + ' ' + second_word + \
-                    ' ' + list_to_string(third_words)
+                    ' ' + list_to_string(third_words) + '\n'
                 writer.write(line)
-                writer.write('\n')
 
 print('\nBest triplets of starting words can be found in output/triplets.txt')
