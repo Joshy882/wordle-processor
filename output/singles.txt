@@ -1,0 +1,5 @@
+Best starting words that are accepted answers
+[ later alter alert ]
+
+Best starting words that aren't accepted answers
+[ oater orate roate ]
